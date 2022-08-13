@@ -11,7 +11,11 @@
     "prepare": "husky install",
     "test": "jest",
     "test-dev": "jest src --watchAll",
-    "jest-coverage": "jest src --coverage"
+    "jest-coverage": "jest src --coverage",
+    "build": "npm run ts"
+  },
+  "engines": {
+    "node": "^18.4.0"
   },
   "keywords": [],
   "author": "",
