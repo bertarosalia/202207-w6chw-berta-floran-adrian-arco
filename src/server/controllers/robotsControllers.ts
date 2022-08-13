@@ -1,11 +1,11 @@
 import chalk from "chalk";
-import Debug from "debug";
 import { Request, Response } from "express";
+import Debug from "debug";
 import fakeRobotsList from "../../database/fakeRobots";
 
 const debug = Debug("ROBOTS:Controllers");
 
-const getAllRobots = (req: Request, res: Response) => {
+export const getAllRobots = (req: Request, res: Response) => {
   debug(chalk.yellow("Received a getAllRobots req"));
   const { n } = req.query;
   const totalRobots = n ?? fakeRobotsList.length;
@@ -14,4 +14,9 @@ const getAllRobots = (req: Request, res: Response) => {
   res.status(200).json(robots);
 };
 
-export default getAllRobots;
+export const getById = (req: Request, res: Response) => {
+  const { idRobot } = req.params;
+
+  const requestedRobot = fakeRobotsList.find((robot) => robot.id === idRobot);
+  res.status(200).json(requestedRobot);
+};
