@@ -3,14 +3,14 @@ import morgan from "morgan";
 import express from "express";
 import Debug from "debug";
 import chalk from "chalk";
-import connectDatabase from "./database/connectDatabase";
+// import connectDatabase from "./database/connectDatabase";
 import startServer from "./server/startServer";
-import getAllRobots from "./server/controllers/robotsControllers";
+import routerRobots from "./server/routers/routersRobots";
 
 const port = process.env.PORT ?? 4500;
-const urlMongo = process.env.MONGOURL as string;
+// const urlMongo = process.env.MONGOURL as string;
 const app = express();
-const debug = Debug("index");
+const debug = Debug("robots:index");
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -20,7 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-connectDatabase(urlMongo);
-startServer(+port);
+// connectDatabase(urlMongo);
+app.use("/robots", routerRobots);
 
-// app.get("", getAllRobots());
+startServer(+port);

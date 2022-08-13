@@ -3,7 +3,7 @@ import express from "express";
 import Debug from "debug";
 import chalk from "chalk";
 
-const debug = Debug("startServer");
+const debug = Debug("robots:server:startServer");
 const app = express();
 
 const startServer = (port: number) =>
