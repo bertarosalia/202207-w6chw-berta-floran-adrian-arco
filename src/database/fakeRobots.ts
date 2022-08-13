@@ -1,4 +1,4 @@
-import IRobot from "../models/robot";
+import IRobot from "../interfaces/robot";
 
 const fakeRobotsList: IRobot[] = [
   {
