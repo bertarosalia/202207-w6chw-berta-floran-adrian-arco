@@ -5,7 +5,6 @@ import Debug from "debug";
 import chalk from "chalk";
 import routerRobots from "./server/routers/routersRobots";
 import { app, startServer } from "./server/startServer";
-import { getById } from "./server/controllers/robotsControllers";
 
 const debug = Debug("ROBOTS:index");
 const port = process.env.PORT ?? 4500;
@@ -19,8 +18,6 @@ app.use((req, rest, next) => {
 });
 
 app.use("/robots", routerRobots);
-
-app.get("/:idRobot", getById);
 
 startServer(+port);
 
