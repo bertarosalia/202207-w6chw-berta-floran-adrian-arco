@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { Request, Response } from "express";
 import Debug from "debug";
 import fakeRobotsList from "../../database/fakeRobots";
-import Robot from "../../models/Robot";
+import Robot from "../../database/models/Robot";
 
 const debug = Debug("ROBOTS:Controllers");
 
