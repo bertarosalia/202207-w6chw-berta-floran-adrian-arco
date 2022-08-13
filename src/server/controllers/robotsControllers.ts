@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import { Request, Response } from "express";
 import Debug from "debug";
-import { Robot } from "../../models/Robot";
 import fakeRobotsList from "../../database/fakeRobots";
+import { Robot } from "../../models/Robot";
 
 const debug = Debug("ROBOTS:Controllers");
 
