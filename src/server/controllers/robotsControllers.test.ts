@@ -4,9 +4,8 @@ import Robot from "../../database/models/Robot";
 import { getAllRobots, getById } from "./robotsControllers";
 
 describe("Given robotsControllers controller", () => {
+  const req: Partial<Request> = {};
   describe("When it's invoqued with getAllRobots method", () => {
-    const req: Partial<Request> = {};
-
     test("Then it should call the status method with a 200", async () => {
       const status = 200;
       const res: Partial<Response> = {
