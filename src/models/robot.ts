@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-export const robotSchema = new Schema({
+const robotSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -27,4 +27,6 @@ export const robotSchema = new Schema({
   },
 });
 
-export const Robot = model("robot", robotSchema, "robots");
+const Robot = model("robot", robotSchema, "robots");
+
+export default Robot;
