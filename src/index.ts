@@ -1,6 +1,6 @@
 import "./loadEnvironment";
-import morgan from "morgan";
 import express from "express";
+import morgan from "morgan";
 import Debug from "debug";
 import chalk from "chalk";
 import connectDatabase from "./database/connectDatabase";
@@ -29,3 +29,5 @@ app.use("/robots", routerRobots);
     process.exit(1);
   }
 })();
+
+export default app;
