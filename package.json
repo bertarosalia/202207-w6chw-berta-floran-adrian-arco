@@ -15,7 +15,7 @@
     "build": "npm run ts"
   },
   "engines": {
-    "node": "^18.4.0"
+    "node": "^18.x"
   },
   "keywords": [],
   "author": "",
