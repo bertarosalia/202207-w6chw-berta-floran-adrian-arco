@@ -17,7 +17,7 @@ export const getAllRobots = async (
     const AllRobots = await Robot.find();
     debug(chalk.yellow("Sending a response from getAllRobots"));
 
-    res.status(200).json(AllRobots);
+    res.status(200).json({ AllRobots });
   } catch {
     const errorGetAll = customError(
       500,
