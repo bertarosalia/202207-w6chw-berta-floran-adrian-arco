@@ -7,7 +7,7 @@ import cors from "cors";
 import connectDatabase from "./database";
 import routerRobots from "./server/routers/routersRobots";
 import { app, startServer } from "./server/startServer";
-import generalError from "./server/middlewares/errors";
+import generalError from "./server/middlewares/gfgf";
 
 const debug = Debug("ROBOTS:index");
 const port = process.env.PORT ?? 4500;
