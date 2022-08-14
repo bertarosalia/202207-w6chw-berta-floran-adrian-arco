@@ -79,14 +79,7 @@ describe("Given a getById robots controller", () => {
       { name: "bb", id: "asdf" },
     ];
 
-    fakeRobots.find = jest.fn().mockReturnValue({
-      id: "4",
-      name: "robot1",
-      creationData: "13-08-22",
-      endurance: 8,
-      speed: 8,
-      urlImg: "asdf",
-    });
+    Robot.find = jest.fn().mockReturnValue(fakeRobots);
 
     expect(res.status).toHaveBeenCalledWith(status);
   });
