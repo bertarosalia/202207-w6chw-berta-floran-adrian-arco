@@ -3,6 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import Debug from "debug";
 import chalk from "chalk";
+import cors from "cors";
 import connectDatabase from "./database";
 import routerRobots from "./server/routers/routersRobots";
 import { app, startServer } from "./server/startServer";
@@ -11,6 +12,7 @@ const debug = Debug("ROBOTS:index");
 const port = process.env.PORT ?? 4500;
 const urlMongo = process.env.MONGOURL;
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
