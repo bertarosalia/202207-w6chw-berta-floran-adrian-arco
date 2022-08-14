@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import fakeRobotsList from "../../database/fakeRobots";
 import Robot from "../../database/models/Robot";
 import { getAllRobots, getById } from "./robotsControllers";
 
@@ -39,7 +38,7 @@ describe("Given robotsControllers controller", () => {
 
 describe("Given a getById robots controller", () => {
   describe("When it receives a response object", () => {
-    test("It should call the response method json with robot1 ", () => {
+    test("It should call the response method json with robot1 ", async () => {
       const robotExpected = {
         id: "4",
         name: "robot1",
@@ -54,14 +53,16 @@ describe("Given a getById robots controller", () => {
         json: jest.fn(),
       } as Partial<Response>;
 
+      Robot.find = jest.fn().mockResolvedValue(robotExpected);
+
       const req = { params: { idRobot: "4" } } as Partial<Request>;
 
-      getById(req as Request, res as Response);
+      await getById(req as Request, res as Response);
 
       expect(res.json).toHaveBeenCalledWith(robotExpected);
     });
   });
-  test("It should call the status method with 200 code", () => {
+  test("It should call the status method with 200 code", async () => {
     const status = 200;
     const req = { params: { idRobot: "" } } as Partial<Request>;
 
@@ -70,9 +71,14 @@ describe("Given a getById robots controller", () => {
       json: jest.fn(),
     } as Partial<Response>;
 
-    getById(req as Request, res as Response);
+    await getById(req as Request, res as Response);
 
-    fakeRobotsList.find = jest.fn().mockReturnValue({
+    const fakeRobots = [
+      { name: "aa", id: "asdfss" },
+      { name: "bb", id: "asdf" },
+    ];
+
+    fakeRobots.find = jest.fn().mockReturnValue({
       id: "4",
       name: "robot1",
       creationData: "13-08-22",
