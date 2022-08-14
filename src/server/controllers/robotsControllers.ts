@@ -28,11 +28,22 @@ export const getAllRobots = async (
   }
 };
 
-export const getById = async (req: Request, res: Response) => {
+export const getById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   debug(chalk.yellow("Received a getById req"));
-  const { idRobot } = req.params;
-  const requestedRobot = await Robot.find({ _id: idRobot });
-  debug(chalk.yellow("Sending a response from getById"));
+  let requestedRobot;
 
-  res.status(200).json(requestedRobot);
+  try {
+    const { idRobot } = req.params;
+    requestedRobot = await Robot.find({ _id: idRobot });
+
+    debug(chalk.yellow("Sending a response from getById"));
+    res.status(200).json(requestedRobot);
+    next();
+  } catch {
+    next(customError(204, "Element not found", "Can´t response this request"));
+  }
 };
