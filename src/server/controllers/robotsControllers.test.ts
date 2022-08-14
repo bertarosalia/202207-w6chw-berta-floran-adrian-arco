@@ -32,7 +32,7 @@ describe("Given robotsControllers controller", () => {
 
       await getAllRobots(req as Request, res as Response, next as NextFunction);
 
-      expect(res.json).toHaveBeenCalledWith(AllRobots);
+      expect(res.json).toHaveBeenCalledWith({ AllRobots });
     });
   });
 });
