@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import CustomError from "../../types/errorTypes";
-import generalError from "./gfgf";
+import generalError from "./errors";
 
 describe("Given a general error function", () => {
   describe("When it receives a response object", () => {
