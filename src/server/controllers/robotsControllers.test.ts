@@ -21,19 +21,19 @@ describe("Given robotsControllers controller", () => {
     });
 
     test("Then it should call the json method with the robots", async () => {
-      const fakeRobots = [
+      const AllRobots = [
         { name: "aa", id: "asdfss" },
         { name: "bb", id: "asdf" },
       ];
       const res: Partial<Response> = {
         status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockResolvedValue(fakeRobots),
+        json: jest.fn().mockResolvedValue(AllRobots),
       };
-      Robot.find = jest.fn().mockResolvedValue(fakeRobots);
+      Robot.find = jest.fn().mockResolvedValue(AllRobots);
       const next = jest.fn();
       await getAllRobots(req as Request, res as Response, next as NextFunction);
 
-      expect(res.json).toHaveBeenCalledWith(fakeRobots);
+      expect(res.json).toHaveBeenCalledWith({ AllRobots });
     });
   });
 
