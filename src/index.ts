@@ -3,7 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import Debug from "debug";
 import chalk from "chalk";
-import connectDatabase from "./database/connectDatabase";
+import connectDatabase from "./database";
 import routerRobots from "./server/routers/routersRobots";
 import { app, startServer } from "./server/startServer";
 
