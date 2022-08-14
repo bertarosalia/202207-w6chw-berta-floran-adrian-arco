@@ -1,17 +1,32 @@
 import chalk from "chalk";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Debug from "debug";
 import fakeRobotsList from "../../database/fakeRobots";
 import Robot from "../../database/models/Robot";
+import customError from "../../utils/customError";
 
 const debug = Debug("ROBOTS:Controllers");
 
-export const getAllRobots = async (req: Request, res: Response) => {
+export const getAllRobots = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   debug(chalk.yellow("Received a getAllRobots req"));
-  const AllRobots = await Robot.find();
-  debug(chalk.yellow("Sending a response from getAllRobots"));
+  try {
+    const AllRobots = await Robot.find();
+    debug(chalk.yellow("Sending a response from getAllRobots"));
 
-  res.status(200).json(AllRobots);
+    res.status(200).json(AllRobots);
+  } catch {
+    const errorGetAll = customError(
+      500,
+      "Conection to database is down",
+      "Cannot reach this request"
+    );
+
+    next(errorGetAll);
+  }
 };
 
 export const getById = (req: Request, res: Response) => {
