@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Robot from "../../database/models/Robot";
+import customError from "../../utils/customError";
 import { getAllRobots, getById } from "./robotsControllers";
 
 describe("Given robotsControllers controller", () => {
@@ -29,7 +30,6 @@ describe("Given robotsControllers controller", () => {
         json: jest.fn().mockResolvedValue(AllRobots),
       };
       Robot.find = jest.fn().mockResolvedValue(AllRobots);
-
       await getAllRobots(req as Request, res as Response, next as NextFunction);
 
       expect(res.json).toHaveBeenCalledWith({ AllRobots });
@@ -38,6 +38,12 @@ describe("Given robotsControllers controller", () => {
 });
 
 describe("Given a getById robots controller", () => {
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  } as Partial<Response>;
+  const next = jest.fn();
+
   describe("When it receives a response object", () => {
     test("It should call the response method json with robot1 ", async () => {
       const robotExpected = {
@@ -48,17 +54,10 @@ describe("Given a getById robots controller", () => {
         speed: 8,
         urlImg: "asdf",
       };
-
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      } as Partial<Response>;
-
-      Robot.find = jest.fn().mockResolvedValue(robotExpected);
-
       const req = { params: { idRobot: "4" } } as Partial<Request>;
 
-      await getById(req as Request, res as Response);
+      Robot.find = jest.fn().mockResolvedValue(robotExpected);
+      await getById(req as Request, res as Response, next as NextFunction);
 
       expect(res.json).toHaveBeenCalledWith(robotExpected);
     });
@@ -66,21 +65,28 @@ describe("Given a getById robots controller", () => {
   test("It should call the status method with 200 code", async () => {
     const status = 200;
     const req = { params: { idRobot: "" } } as Partial<Request>;
-
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    } as Partial<Response>;
-
-    await getById(req as Request, res as Response);
-
     const fakeRobots = [
       { name: "aa", id: "asdfss" },
       { name: "bb", id: "asdf" },
     ];
-
     Robot.find = jest.fn().mockReturnValue(fakeRobots);
+    await getById(req as Request, res as Response, next as NextFunction);
 
     expect(res.status).toHaveBeenCalledWith(status);
+  });
+
+  describe("When it receives an unexist id", () => {
+    test("It should give a Custom Error message", async () => {
+      const error = customError(
+        204,
+        "Element not found",
+        "Can´t response this request"
+      );
+      const req = { params: { idRobot: "" as unknown } } as Partial<Request>;
+      Robot.find = jest.fn().mockRejectedValue(new Error(""));
+      await getById(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
   });
 });
