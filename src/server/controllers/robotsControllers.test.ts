@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import fakeRobotsList from "../../database/fakeRobots";
 import Robot from "../../database/models/Robot";
+import customError from "../../utils/customError";
 import { getAllRobots, getById } from "./robotsControllers";
 
 describe("Given robotsControllers controller", () => {
+  const req: Partial<Request> = {};
   describe("When it's invoqued with getAllRobots method", () => {
-    const req: Partial<Request> = {};
-
     test("Then it should call the status method with a 200", async () => {
       const status = 200;
       const res: Partial<Response> = {
@@ -14,7 +14,8 @@ describe("Given robotsControllers controller", () => {
         json: jest.fn(),
       };
       Robot.find = jest.fn().mockResolvedValue([]);
-      await getAllRobots(req as Request, res as Response);
+      const next = jest.fn();
+      await getAllRobots(req as Request, res as Response, next as NextFunction);
 
       expect(res.status).toHaveBeenCalledWith(status);
     });
@@ -29,10 +30,29 @@ describe("Given robotsControllers controller", () => {
         json: jest.fn().mockResolvedValue(fakeRobots),
       };
       Robot.find = jest.fn().mockResolvedValue(fakeRobots);
-
-      await getAllRobots(req as Request, res as Response);
+      const next = jest.fn();
+      await getAllRobots(req as Request, res as Response, next as NextFunction);
 
       expect(res.json).toHaveBeenCalledWith(fakeRobots);
+    });
+  });
+
+  describe("When it have an error conecting with the database", () => {
+    test("Then it should call next with the error created", async () => {
+      const fakeError = customError(
+        500,
+        "Conection to database is down",
+        "Cannot reach this request"
+      );
+      const res: Partial<Response> = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      Robot.find = jest.fn().mockRejectedValue(new Error(""));
+      const next = jest.fn();
+      await getAllRobots(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(fakeError);
     });
   });
 });
