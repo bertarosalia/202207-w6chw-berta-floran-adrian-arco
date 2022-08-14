@@ -5,6 +5,8 @@ import { getAllRobots, getById } from "./robotsControllers";
 describe("Given robotsControllers controller", () => {
   const req: Partial<Request> = {};
   describe("When it's invoqued with getAllRobots method", () => {
+    const next = jest.fn();
+
     test("Then it should call the status method with a 200", async () => {
       const status = 200;
       const res: Partial<Response> = {
@@ -12,7 +14,6 @@ describe("Given robotsControllers controller", () => {
         json: jest.fn(),
       };
       Robot.find = jest.fn().mockResolvedValue([]);
-      const next = jest.fn();
       await getAllRobots(req as Request, res as Response, next as NextFunction);
 
       expect(res.status).toHaveBeenCalledWith(status);
