@@ -23,7 +23,7 @@ const robotSchema = new Schema({
   },
   creationDate: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
