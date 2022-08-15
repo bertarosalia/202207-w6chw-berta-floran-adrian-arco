@@ -23,7 +23,6 @@ app.use((req, rest, next) => {
 });
 
 app.use("/robots", routerRobots);
-
 app.use("/", generalError);
 
 (async () => {

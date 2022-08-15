@@ -44,6 +44,28 @@ export const getById = async (
     res.status(200).json(requestedRobot);
     next();
   } catch {
-    next(customError(204, "Element not found", "Can´t response this request"));
+    next(customError(204, "Element not found", "Cant response this request"));
+  }
+};
+
+export const createRobot = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  debug("request arrived to createRobot");
+  const robot = req.body;
+  debug(req.body);
+  try {
+    const newRobot = await Robot.create(robot);
+    res.status(201).json({ robot: newRobot });
+  } catch (error) {
+    const createError = customError(
+      400,
+      error.message,
+      "Error creating new robot"
+    );
+
+    next(createError);
   }
 };
