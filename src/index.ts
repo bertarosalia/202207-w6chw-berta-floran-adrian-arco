@@ -4,6 +4,7 @@ import morgan from "morgan";
 import Debug from "debug";
 import chalk from "chalk";
 import cors from "cors";
+import mongoose from "mongoose";
 import connectDatabase from "./database";
 import routerRobots from "./server/routers/routersRobots";
 import { app, startServer } from "./server/startServer";
@@ -12,6 +13,20 @@ import generalError from "./server/middlewares/errors";
 const debug = Debug("ROBOTS:index");
 const port = process.env.PORT ?? 4500;
 const urlMongo = process.env.MONGOURL;
+
+mongoose.set("toJSON", {
+  virtuals: true,
+  transform: (doc, ret) => {
+    const newDocument = { ...ret };
+
+    // eslint-disable-next-line no-underscore-dangle
+    delete newDocument.__v;
+    // eslint-disable-next-line no-underscore-dangle
+    delete newDocument._id;
+
+    return newDocument;
+  },
+});
 
 app.use(cors());
 app.use(express.json());
