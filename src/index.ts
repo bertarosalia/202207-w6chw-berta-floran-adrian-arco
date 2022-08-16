@@ -9,6 +9,7 @@ import connectDatabase from "./database";
 import routerRobots from "./server/routers/routersRobots";
 import { app, startServer } from "./server/startServer";
 import generalError from "./server/middlewares/errors";
+import usersRouter from "./server/routers/userRouters";
 
 const debug = Debug("ROBOTS:index");
 const port = process.env.PORT ?? 4500;
