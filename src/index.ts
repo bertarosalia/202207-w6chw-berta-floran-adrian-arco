@@ -38,6 +38,7 @@ app.use((req, rest, next) => {
 });
 
 app.use("/robots", routerRobots);
+app.use("/users", usersRouter);
 app.use("/", generalError);
 
 (async () => {
